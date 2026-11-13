@@ -10,8 +10,10 @@ def get_random_word():
     return WORDS[random.randint(0, len(WORDS) - 1)]
 
 
-def display_game_state(mistakes, secret_word, guessed_letters):
-    """Display the snowman stage for the current numer of mistakes the user made"""
+def display_game_state(mistakes, secret_word,
+                       guessed_letters):
+    """Display the snowman stage for the current
+    numer of mistakes the user made"""
     print(STAGES[mistakes])
     display_word = ""
     for letter in secret_word:
@@ -23,15 +25,29 @@ def display_game_state(mistakes, secret_word, guessed_letters):
 
 
 def play_game():
+    """Run an interactive console round of Snowman Meltdown."""
     mistakes = 0
     guessed_letters = []
     secret_word = get_random_word()
     print("Welcome to Snowman Meltdown!")
-    print("Secret word selected: " + secret_word)  # for testing, later remove this line
+
+    won = False
+    while mistakes < 3 and not won:
+        display_game_state(mistakes, secret_word, guessed_letters)
+        guess = input("Guess a letter: ").lower()
+        if guess in secret_word:
+            guessed_letters.append(guess)
+        else:
+            mistakes += 1
+
+        won = True
+        for letter in secret_word:
+            if letter not in guessed_letters:
+                won = False
 
     display_game_state(mistakes, secret_word, guessed_letters)
-
-    # TODO: Build your game loop here.
-    # For now, simply prompt the user once:
-    guess = input("Guess a letter: ").lower()
-    print("You guessed:", guess)
+    if won:
+        print("Yes!!! - you survived the meltdown")
+    else:
+        print("Owwww 0.o - your Snowman did not"
+              " survive your leaky brain")
