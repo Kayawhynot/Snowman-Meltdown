@@ -35,6 +35,9 @@ def play_game():
     while mistakes < 3 and not won:
         display_game_state(mistakes, secret_word, guessed_letters)
         guess = input("Guess a letter: ").lower()
+        if len(guess) != 1 or not guess.isalpha():
+            print("Only one and only alphabetical letters are allowed")
+            continue
         if guess in secret_word:
             guessed_letters.append(guess)
         else:
